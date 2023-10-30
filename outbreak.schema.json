@@ -1,0 +1,465 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/globaldothealth/outbreak-schema/main/outbreak.schema.json",
+    "title": "Global.health Day zero outbreak schema",
+    "description": "Day zero outbreak schema",
+    "required": [
+        "ID",
+        "Case_status",
+        "Pathogen"
+    ],
+    "properties": {
+        "Pathogen": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Constant, pathogen of interest"
+        },
+        "ID": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Unique string identifying the case"
+        },
+        "Case_status": {
+            "category": "Case Demographics",
+            "enum": [
+                "confirmed",
+                "probable",
+                "suspected",
+                "discarded",
+                "omit_error"
+            ],
+            "description": "Status of a case. Cases which are discarded were previously suspected but have now been confirmed negative, and should be excluded from case counts. Cases which are omit_error were incorrectly added and should be dismissed from any data interpretation."
+        },
+        "Pathogen_status": {
+            "category": "Case Demographics",
+            "enum": [
+                "endemic",
+                "emerging",
+                "unknown"
+            ],
+            "description": "Whether the infection occured in an endemic, or non-endemic region."
+        },
+        "Location_information": {
+            "category": "Case Demographics",
+            "type": "object",
+            "description": "(GeoJSON) Curators input an initial location where the case was reported from. This query results in a location structure returned from a geocoding API, such as Mapbox"
+        },
+        "Age": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Age of individual, specified as range, open-ended (<n, >n) or as a range delimited by a hyphen following 5 year increments (m-n)"
+        },
+        "Sex_at_birth": {
+            "category": "Case Demographics",
+            "enum": [
+                "male",
+                "female",
+                "other"
+            ],
+            "description": "Sex at birth of an individual"
+        },
+        "Sex_at_birth_other": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free text entry for the sex of an individual, if not covered by 'Sex_at_birth'"
+        },
+        "Gender": {
+            "category": "Case Demographics",
+            "enum": [
+                "man",
+                "woman",
+                "transgender",
+                "non-binary",
+                "other"
+            ],
+            "description": "Gender identity of the individual"
+        },
+        "Gender_other": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free text entry for Gender identity if not covered by 'Gender' field"
+        },
+        "Race": {
+            "category": "Case Demographics",
+            "type": "array",
+            "items": {
+                "enum": [
+                    "Native Hawaiian or Other Pacific Islander",
+                    "Asian",
+                    "American Indian or Alaska Native",
+                    "Black or African American",
+                    "White",
+                    "Other"
+                ]
+            },
+            "description": "Race of the individual, can select multiple options"
+        },
+        "Race_other": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free response input for the race of the individual"
+        },
+        "Ethnicity": {
+            "category": "Case Demographics",
+            "enum": [
+                "Hispanic or Latino",
+                "Not Hispanic or Latino",
+                "other"
+            ],
+            "description": "Ethnicity of the individual, per the U.S. census definition"
+        },
+        "Ethnicity_other": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free response input for the ethnicity of the individual. Input text data as provided by the original data source; do not translate."
+        },
+        "Nationality": {
+            "category": "Case Demographics",
+            "type": "array",
+            "description": "Nationality of the individual, can select multiple"
+        },
+        "Nationality_other": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free response entry for the nationality of the individual, if not covered by the Nationality field."
+        },
+        "Occupation": {
+            "category": "Case Demographics",
+            "type": "string",
+            "description": "Free response entry describing the individual's occupation"
+        },
+        "Healthcare_worker": {
+            "category": "Case Demographics",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual is a healthcare worker"
+        },
+        "Previous_infection": {
+            "category": "Medical History",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Did the individual test positive for the infection prior to the most recent diagnosis"
+        },
+        "Co_infection": {
+            "category": "Medical History",
+            "type": "array",
+            "description": "If the individual tested positive for another pathogen, can select multiple"
+        },
+        "Pre_existing_condition": {
+            "category": "Medical History",
+            "type": "array",
+            "description": "If the individual has any pre-existing conditions"
+        },
+        "Pregnancy_Status": {
+            "category": "Medical History",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Is the case pregnant or post-partum?"
+        },
+        "Vaccination": {
+            "category": "Medical History",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Has the individual received a dose of vaccine"
+        },
+        "Vaccine_name": {
+            "category": "Medical History",
+            "type": "string",
+            "description": "Name of the first vaccine"
+        },
+        "Vaccination_date": {
+            "category": "Medical History",
+            "type": "string",
+            "format": "date",
+            "description": "Date of first vaccination"
+        },
+        "Vaccine_side_effects": {
+            "category": "Medical History",
+            "type": "array",
+            "description": "List of symptoms experienced after receiving the vaccine"
+        },
+        "Symptoms": {
+            "category": "Clinical Presentation",
+            "type": "array",
+            "description": "List of symptoms (i.e. cough, sore throat, etc.)."
+        },
+        "Date_report": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date case was first reported. Suggest adding the date of first report, such as the date first included in a situation report or other official communication"
+        },
+        "Date_onset": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date of onset of symptoms. May be difficult to infer from aggregate date reporting"
+        },
+        "Date_confirmation": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date when case was confirmed"
+        },
+        "Confirmation_method": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "description": "Test used to perform diagnosis. Dependent on pathogen, and often already included in the definition"
+        },
+        "Date_of_first_consultation": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date that the individual received first clinical consultation"
+        },
+        "Hospitalised": {
+            "category": "Clinical Presentation",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual was hospitalised"
+        },
+        "Reason_for_hospitalisation": {
+            "category": "Clinical Presentation",
+            "type": "array",
+            "items": {
+                "enum": [
+                    "monitoring",
+                    "treatment"
+                ]
+            },
+            "description": "Reason why the individual was hospitalised, can select multiple"
+        },
+        "Date_hospitalisation": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date individual was hospitalised"
+        },
+        "Date_discharge_hospital": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date that the individual was discharged from the hospital. Note: there is a separate field for ICU discharge"
+        },
+        "Intensive_care": {
+            "category": "Clinical Presentation",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual admitted to an intensive care unit or high dependency unit at hospital"
+        },
+        "Date_admission_ICU": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date individual entered intensive care unit"
+        },
+        "Date_discharge_ICU": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date that the individual was discharged from the ICU"
+        },
+        "Home_monitoring": {
+            "category": "Clinical Presentation",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual is being remotely monitored by health officials at home without hospital admission"
+        },
+        "Isolated": {
+            "category": "Clinical Presentation",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual was isolated at home or in hospital. Dependent on context/pathogen"
+        },
+        "Date_isolation": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date individual entered isolation"
+        },
+        "Outcome": {
+            "category": "Clinical Presentation",
+            "enum": [
+                "recovered",
+                "death",
+                "ongoing post-acute condition"
+            ],
+            "description": "Outcome of the disease, recovered includes inactive case counts"
+        },
+        "Date_death": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date individual died"
+        },
+        "Date_recovered": {
+            "category": "Clinical Presentation",
+            "type": "string",
+            "format": "date",
+            "description": "Date individual recovered, inactive case status"
+        },
+        "Contact_with_case": {
+            "category": "Exposure",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Has the individual had contact with a confirmed or suspected case"
+        },
+        "Contact_ID": {
+            "category": "Exposure",
+            "type": "string",
+            "description": "If specified, the ID of the confirmed or suspected contact"
+        },
+        "Contact_setting": {
+            "category": "Exposure",
+            "enum": [
+                "HOUSE",
+                "WORK",
+                "SCHOOL",
+                "HEALTH",
+                "PARTY",
+                "BAR",
+                "LARGE",
+                "LARGECONTACT",
+                "OTHER",
+                "UNK"
+            ],
+            "description": "Setting where contact occurred. HEALTH=healthcare, including laboratory exposure, PARTY=Sexual contact at night club/private party/sauna or similar setting, BAR=bar/restaurant/other small event where there was no sexual contact, LARGE=large event with no sexual contact (e.g. festival or sports event), LARGECONTACT=large event with sexual contact, UNK=unknown"
+        },
+        "Contact_setting_other": {
+            "category": "Exposure",
+            "type": "string",
+            "description": "Contact setting not covered by Contact_setting"
+        },
+        "Contact_animal": {
+            "category": "Exposure",
+            "enum": [
+                "PET",
+                "PETRODENTS",
+                "WILD",
+                "WILDRODENTS",
+                "OTHER"
+            ],
+            "description": "Whether the individual has known contact with animals. PET=household pets excluding rodents, PETRODENTS=rodent pets, WILD=wild animals excluding rodents, WILDRODENTS=wild rodents"
+        },
+        "Contact_comment": {
+            "category": "Exposure",
+            "type": "string",
+            "description": "Free text describing any additional contact information"
+        },
+        "Transmission": {
+            "category": "Exposure",
+            "enum": [
+                "ANIMAL",
+                "HAI",
+                "LAB",
+                "MTCT",
+                "OTHER",
+                "FOMITE",
+                "PTP",
+                "SEX",
+                "TRANSFU",
+                "UNK"
+            ],
+            "description": "Most likely mode of transmission. ANIMAL = Animal to human transmission. HAI = Healthcare-associated, LAB = Transmission in a laboratory due to occupational exposure, MTCT = Transmission from mother to child during pregnancy or at birth, OTHER = Other transmission, FOMITE = Contact with contaminated material (e.g bedding, clothing, objects), PTP = Person-to-person (excluding: mother-to-child, healthcare-associated or sexual transmission), SEX = Sexual transmission, TRANSFU = parenteral transmission including intravenous drug use and transfusion, UNK = Unknown"
+        },
+        "Travel_history": {
+            "category": "Exposure",
+            "enum": [
+                "Y",
+                "N",
+                "NA"
+            ],
+            "description": "Whether individual has travel history, domestic and/or international"
+        },
+        "Travel_history_entry": {
+            "category": "Exposure",
+            "type": "string",
+            "format": "date",
+            "description": "Date when individual entered the country"
+        },
+        "Travel_history_start": {
+            "category": "Exposure",
+            "type": "string",
+            "format": "date",
+            "description": "Date when individual began travel"
+        },
+        "Travel_history_location": {
+            "category": "Exposure",
+            "type": "object",
+            "description": "(GeoJSON) Location of travel obtained from geocoding API such as Mapbox"
+        },
+        "Genomics_Metadata": {
+            "category": "Laboratory Information",
+            "type": "string",
+            "description": "Which clade the viral strain belongs to"
+        },
+        "Accession_Number": {
+            "category": "Laboratory Information",
+            "type": "string",
+            "description": "Accession number of the sequence uploaded to public database"
+        },
+        "Source": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "uri",
+            "description": "URL of news story or government source where this case was confirmed"
+        },
+        "Source_II": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "uri",
+            "description": "URL of news story or government source where this case was confirmed"
+        },
+        "Source_III": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "uri",
+            "description": "URL of news story or government source where this case was confirmed"
+        },
+        "Source_IV": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "uri",
+            "description": "URL of news story or government source where this case was confirmed"
+        },
+        "Date_entry": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "date",
+            "description": "Date case was entered into line list"
+        },
+        "Date_last_modified": {
+            "category": "Source Information",
+            "type": "string",
+            "format": "date",
+            "description": "Last date when case was modified in line list"
+        }
+    }
+}
